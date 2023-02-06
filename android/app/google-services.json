@@ -1,0 +1,77 @@
+{
+  "project_info": {
+    "project_number": "116735660206",
+    "firebase_url": "https://test-6c43b-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "test-6c43b",
+    "storage_bucket": "test-6c43b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:116735660206:android:de65a4a1e925267d76dd3f",
+        "android_client_info": {
+          "package_name": "com.timecalculatorplus"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "116735660206-nh1cl0l5j1u6lvu0mjs7680al32e1q09.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAGa-o6Ke65J0FyR8z1ztH96RirNnb8YWw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "116735660206-nh1cl0l5j1u6lvu0mjs7680al32e1q09.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:116735660206:android:bbe4798da4db6d5f76dd3f",
+        "android_client_info": {
+          "package_name": "com.timecalculatorplusv100"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "116735660206-5b73345sm0ec7qrm2hva7ko4pjptmf79.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.timecalculatorplusv100",
+            "certificate_hash": "fd2d5ce0849173ee484a6d5aa80f22057ec085f8"
+          }
+        },
+        {
+          "client_id": "116735660206-nh1cl0l5j1u6lvu0mjs7680al32e1q09.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAGa-o6Ke65J0FyR8z1ztH96RirNnb8YWw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "116735660206-nh1cl0l5j1u6lvu0mjs7680al32e1q09.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
