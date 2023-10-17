@@ -42,21 +42,27 @@ export default function SplashScreen({navigation}) {
         style={{ width: '40%', height: WIDTH*0.4}}
         resizeMode= 'contain'
       />
-      <Text 
+      {/* <Text
         allowFontScaling={false}
         numberOfLines={1}
         adjustsFontSizeToFit
-        style = {{ fontSize: hp('2.3%'), fontWeight: 'bold', marginBottom: 10 }}>Time Calculator</Text>
-      <Text 
+        style={{ fontSize: hp('2.3%'), fontWeight: 'bold', marginBottom: 10 }}>
+        Time Calculator
+      </Text>
+      <Text
         allowFontScaling={false}
         numberOfLines={1}
         adjustsFontSizeToFit
-        style = {{fontSize: hp('2.1%'), fontWeight: 'bold', }}>Kết nối cảm xúc</Text>
-      <Text 
+        style={{ fontSize: hp('2.1%'), fontWeight: 'bold', }}>
+        Kết nối cảm xúc
+      </Text>
+      <Text
         allowFontScaling={false}
         numberOfLines={1}
         adjustsFontSizeToFit
-        style = {{fontSize: hp('2.1%'), fontWeight: 'bold', }}>Kết nối tương lai</Text>
+        style={{ fontSize: hp('2.1%'), fontWeight: 'bold', }}>
+        Kết nối tương lai
+      </Text> */}
     </View>
   );
 }

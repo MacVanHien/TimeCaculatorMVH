@@ -35,7 +35,7 @@ const TermsOfUser = ({ route, navigation }) => {
                                 numberOfLines={1}
                                 adjustsFontSizeToFit
                                 style={{
-                                    paddingLeft: 0, fontSize: hp('2.2%'),
+                                    paddingLeft: 0, fontSize: hp('2.2%'), color: '#ccc',
                                 }}>
                                 {` Time Calculator `}
                             </Text>
@@ -47,15 +47,18 @@ const TermsOfUser = ({ route, navigation }) => {
                             setIsVietnamese(isVietnamese == 'flex' ? 'none' : 'flex');
                             setIsEnglish(isEnglish == 'flex' ? 'none' : 'flex');
                         }}
-                        style={{ borderWidth: 1, borderColor: '#0000FF', backgroundColor: '#0000FF', opacity: 0.9, width: hp('7%'), borderRadius: 20, margin: 7, textAlign: 'center', justifyContent: 'center', position: 'absolute', top: 0, right: 10, zIndex: 100 }}
+                        style={{
+                            borderWidth: 1, borderColor: '#fff', backgroundColor: '#fff', opacity: 0.9, width: hp('7%'), borderRadius: 20, margin: 7,
+                            textAlign: 'center', justifyContent: 'center', position: 'absolute', top: 0, right: 10, zIndex: 100, elevation: 5,
+                        }}
                     >
                         {isEnglish == 'flex' &&
-                            <Text allowFontScaling={false} style={{ fontSize: hp('2.2%'), color: 'white', paddingLeft: hp('2.2%'), }}>
+                            <Text allowFontScaling={false} style={{ fontSize: hp('2.2%'), color: '#00f', paddingLeft: hp('2.2%'), }}>
                                 Vi
                             </Text>
                         }
                         {isVietnamese == 'flex' &&
-                            <Text allowFontScaling={false} style={{ fontSize: hp('2.2%'), color: 'white', paddingLeft: hp('2.2%'), }}>
+                            <Text allowFontScaling={false} style={{ fontSize: hp('2.2%'), color: '#00f', paddingLeft: hp('2.2%'), }}>
                                 En
                             </Text>
                         }
@@ -86,10 +89,10 @@ const TermsOfUser = ({ route, navigation }) => {
                     <ScrollView style={{ display: isEnglish }}>
                         <Text
                             allowFontScaling={false}
-                            style={{ width: WIDTH, fontSize: hp('2%'), paddingLeft: 38, paddingRight: 22, paddingTop: 62, fontWeight: 'bold' }}>PRIVACY POLICY</Text>
+                            style={{ width: WIDTH, fontSize: hp('2%'), paddingLeft: 38, paddingRight: 22, paddingTop: 62, fontWeight: 'bold', color: '#333', }}>PRIVACY POLICY</Text>
                         <Text
                             allowFontScaling={false}
-                            style={{ width: WIDTH, fontSize: hp('2%'), paddingLeft: 38, paddingRight: 22, paddingBottom: 120, paddingTop: 10 }}
+                            style={{ width: WIDTH, fontSize: hp('2%'), paddingLeft: 38, paddingRight: 22, paddingBottom: 120, paddingTop: 10, color: '#333', }}
                             selectable={true}
                         >{`                                    
         Developer built the Time calculator app as free app contains ads . This SERVICE is provided by Developer [at no cost] and is intended for use as is.
@@ -169,10 +172,10 @@ const TermsOfUser = ({ route, navigation }) => {
                     <ScrollView style={{ display: isVietnamese }}>
                         <Text
                             allowFontScaling={false}
-                            style={{ width: WIDTH, fontSize: hp('2.2%'), paddingLeft: 38, paddingRight: 22, paddingTop: 62, fontWeight: 'bold' }}>CHÍNH SÁCH BẢO MẬT</Text>
+                            style={{ width: WIDTH, fontSize: hp('2.2%'), paddingLeft: 38, paddingRight: 22, paddingTop: 62, fontWeight: 'bold', color: '#333', }}>CHÍNH SÁCH BẢO MẬT</Text>
                         <Text
                             allowFontScaling={false}
-                            style={{ width: WIDTH, fontSize: hp('2.2%'), paddingLeft: 38, paddingRight: 22, paddingBottom: 120, paddingTop: 10 }}
+                            style={{ width: WIDTH, fontSize: hp('2.2%'), paddingLeft: 38, paddingRight: 22, paddingBottom: 120, paddingTop: 10, color: '#333', }}
                             selectable={true}
                         >{`                                    
         Nhà phát triển đã xây dựng ứng dụng Time calculator dưới dạng ứng dụng miễn phí có chứa quảng cáo. DỊCH VỤ này do Nhà phát triển cung cấp [miễn phí] và được thiết kế để sử dụng như hiện tại.        

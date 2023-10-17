@@ -187,10 +187,14 @@ const CalendarDate = ({ route, navigation }) => {
     let d = moment(day, 'DD/MM/YYYY').format(); //để đc dạng "2022-06-30"
     let d1 = new Date(d) //chuyển về dạng day của javascript
     let dn = new Date()
-    let isColor = d1.getDate() === dn.getDate() && d1.getMonth() === dn.getMonth() && d1.getFullYear() === dn.getFullYear() ? '#FF0000' : '#555' //.getTime (ko có cặp ngoặc () chạy sai)
+    let isColor = d1.getDate() === dn.getDate() && d1.getMonth() === dn.getMonth() && d1.getFullYear() === dn.getFullYear() ? '#FF0000' : '#555' 
+    //.getTime (ko có cặp ngoặc () chạy sai)
     return isColor
   }
   // console.log('line 1, :', getColorForTheDay('12/11/2022'))
+
+
+
 
 
   class ViewOfItemInFlatlist extends React.PureComponent {
@@ -199,14 +203,14 @@ const CalendarDate = ({ route, navigation }) => {
       return <View key={index}>
         <View style={{ marginHorizontal: wp('1%'), paddingTop: hp('1%'), borderBottomWidth: 1 }}>
 
-          <Text allowFontScaling={false} style={{ fontSize: hp('2.3%'), paddingTop: hp('5%') }}>{`Tháng ${item.month}/${item.year}.`}</Text>
+          <Text allowFontScaling={false} style={{ fontSize: hp('2.3%'), paddingTop: hp('5%'), color: '#ccc', }}>{`Tháng ${item.month}/${item.year}.`}</Text>
           <View style={{ flexDirection: 'row', justifyContent: 'center', }}>
             <View allowFontScaling={false} style={{ width: '50%', paddingLeft: wp('2.5%'), borderBottomWidth: 0.5, borderBottomColor: '#ccc', }} >
               {
                 item.days.sunDay.map((item1, index1) => (
                   <View key={index1} style={{ borderBottomWidth: 0.5, borderBottomColor: '#ccc', height: hp('8%'), marginTop: hp('2%'), }}>
                     <Text allowFontScaling={false} style={{ fontSize: hp('2%'), color: getColorForTheDay(item1.sunDay), fontWeight: 'bold' }}>{item1.sunDay}</Text>
-                    <Text allowFontScaling={false} style={{ fontSize: hp('2%'), }}>{item1.eventInfor}</Text>
+                    <Text allowFontScaling={false} style={{ fontSize: hp('2%'), color: '#333', }}>{item1.eventInfor}</Text>
                   </View>
                 ))
               }
@@ -218,7 +222,7 @@ const CalendarDate = ({ route, navigation }) => {
                   <View key={index1} style={{ borderBottomWidth: 0.5, borderBottomColor: '#ccc', height: hp('8%'), marginTop: hp('2%'), }}>
                     <Text allowFontScaling={false} style={{ fontSize: hp('2%'), color: getColorForTheDay(item1.sunDay) }}>{!!item1.sunDay != false ? SunDayToLunarDay(item1.sunDay) : ""}</Text>
                     {/* Đều là sunDay nên mới làm function chuyển sang */}
-                    <Text allowFontScaling={false} style={{ fontSize: hp('2%'), }}>{!!item1.sunDay != false ? item1.eventInfor : ""}</Text>
+                    <Text allowFontScaling={false} style={{ fontSize: hp('2%'), color: '#333', }}>{!!item1.sunDay != false ? item1.eventInfor : ""}</Text>
                   </View>
                 ))
               }
@@ -233,10 +237,15 @@ const CalendarDate = ({ route, navigation }) => {
 
 
 
+
+
+
+  
+
   return (
-    <View style={{ backgroundColor: '#FFFAF0', height: hp('97%'), width: '100%' }}>
+    <View style={{ backgroundColor: '#fff', height: hp('97%'), width: '100%' }}>
       {/* Hiển thị nút back */}
-      <View style={{ height: hp('5.5%'), backgroundColor: '#E6E6FA', zIndex: 9, justifyContent: 'center' }}>
+      <View style={{ height: hp('5.5%'), backgroundColor: '#eee', zIndex: 9, justifyContent: 'center' }}>
         <TouchableOpacity
           onPress={() => {
             navigation.goBack();
@@ -247,25 +256,28 @@ const CalendarDate = ({ route, navigation }) => {
             <Image
               allowFontScaling={false}
               source={require('./imges/BackButton_rbg1.png')}
-              style={{ width: wp('4%'), height: wp('5%'), borderRadius: 50, backgroundColor: 'rgba(250, 250, 250)', tintColor: 'blue', }}
-              resizeMode='stretch'
+              style={{ width: wp('5%'), height: wp('5%'), borderRadius: 50, backgroundColor: 'rgba(250, 250, 250)', tintColor: 'blue' }}
+              resizeMode="contain"
             />
-            <Text
-              allowFontScaling={false}
-              numberOfLines={1}
-              adjustsFontSizeToFit
-              style={{
-                paddingLeft: 0, fontSize: hp('2.2%'),
-              }}>
-              {` Time Calculator `}
-            </Text>
+            <View style={{ width: wp('90%'), justifyContent: 'center', alignItems: 'center', }}>
+              <Text
+                allowFontScaling={false}
+                numberOfLines={1}
+                adjustsFontSizeToFit
+                style={{
+                  paddingLeft: 0, fontSize: hp('2.2%'), fontWeight: 'bold', color: '#333',
+                }}>
+                {` Lịch - Sự kiện `}
+              </Text>
+            </View>
+
           </View>
         </TouchableOpacity>
       </View>
 
-      <View style={{ height: '93.5%', width: '100%' }}>
+      <View style={{ height: '93.5%', width: '100%', }}>
         {/* Hiển thị chuyển đổi ngày dương lịch - sang âm lịch*/}
-        <View style={{ width: '100%', height: '30%', alignItems: 'center', justifyContent: 'center', paddingBottom: hp('1.5%') }}>
+        <View style={{ width: '100%', height: '30%', alignItems: 'center', justifyContent: 'center', paddingBottom: hp('1.5%'), marginTop: 5, }}>
           <View style={{ marginTop: hp('2%'), paddingLeft: hp('0.3%'), width: '100%', flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', }}>
             <View style={{ marginLeft: wp('2%'), flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', position: 'relative', bottom: hp('0.35%') }}>
               <Text
@@ -273,7 +285,7 @@ const CalendarDate = ({ route, navigation }) => {
                 numberOfLines={1}
                 adjustsFontSizeToFit
                 style={{
-                  paddingLeft: 0, fontSize: hp('2.3%'), fontWeight: 'bold', color: '#333'
+                  paddingLeft: 0, fontSize: hp('2.2%'), fontWeight: 'bold', color: '#333'
                 }}>
                 {`Ngày dương lịch `}
               </Text>
@@ -284,12 +296,13 @@ const CalendarDate = ({ route, navigation }) => {
                 allowFontScaling={false}
                 numberOfLines={1}
                 adjustsFontSizeToFit
-                value={`${dateSun}`}
+                value={` ${dateSun} `}
                 onChangeText={setDateSun}
                 placeholder={`${dateSun} `}
-                placeholderTextColor="#87CEFF"
+                placeholderTextColor="#777"
                 style={{
-                  with: wp('20%'), height: hp('3.5%'), fontSize: hp('2.7%'), backgroundColor: 'rgba(255, 255, 0, 0.5)', borderRadius: 5, padding: 0, color: '#00BFFF', fontWeight: 'bold', zIndex: 1, position: 'relative', bottom: hp('0%'),
+                  with: wp('20%'), height: hp('3.5%'), fontSize: hp('2.7%'), backgroundColor: 'rgba(0, 0, 0, 0.05)', borderRadius: 5, padding: 0, color: '#00f', 
+                  fontWeight: 'bold', zIndex: 1, position: 'relative', bottom: hp('0%'),
                 }}
               />
               <Text
@@ -297,7 +310,7 @@ const CalendarDate = ({ route, navigation }) => {
                 numberOfLines={1}
                 adjustsFontSizeToFit
                 style={{
-                  paddingLeft: 0, fontSize: hp('2.7%'), fontWeight: 'bold', position: 'relative', bottom: hp('0.1%')
+                  paddingLeft: 0, fontSize: hp('2.7%'), fontWeight: 'bold', position: 'relative', bottom: hp('0.1%'), color: '#333',
                 }}>
                 {` / `}
               </Text>
@@ -305,12 +318,13 @@ const CalendarDate = ({ route, navigation }) => {
                 allowFontScaling={false}
                 numberOfLines={1}
                 adjustsFontSizeToFit
-                value={`${monthSun}`}
+                value={` ${monthSun} `}
                 onChangeText={setMonthSun}
                 placeholder={`${monthSun} `}
-                placeholderTextColor="#87CEFF"
+                placeholderTextColor="#777"
                 style={{
-                  with: wp('20%'), height: hp('3.5%'), fontSize: hp('2.7%'), backgroundColor: 'rgba(255, 255, 0, 0.5)', borderRadius: 5, padding: 0, color: '#00BFFF', fontWeight: 'bold', zIndex: 1, position: 'relative', bottom: hp('0%'),
+                  with: wp('20%'), height: hp('3.5%'), fontSize: hp('2.7%'), backgroundColor: 'rgba(0, 0, 0, 0.05)', borderRadius: 5, padding: 0, color: '#00f', 
+                  fontWeight: 'bold', zIndex: 1, position: 'relative', bottom: hp('0%'),
                 }}
               />
               <Text
@@ -318,7 +332,7 @@ const CalendarDate = ({ route, navigation }) => {
                 numberOfLines={1}
                 adjustsFontSizeToFit
                 style={{
-                  paddingLeft: 0, fontSize: hp('2.7%'), fontWeight: 'bold', position: 'relative', bottom: hp('0.1%')
+                  paddingLeft: 0, fontSize: hp('2.7%'), fontWeight: 'bold', position: 'relative', bottom: hp('0.1%'), color: '#333'
                 }}>
                 {` / `}
               </Text>
@@ -326,11 +340,12 @@ const CalendarDate = ({ route, navigation }) => {
                 allowFontScaling={false}
                 numberOfLines={1}
                 adjustsFontSizeToFit
-                value={`${yearSun}`}
+                value={` ${yearSun} `}
                 onChangeText={setYearSun}
                 placeholder={`${yearSun} `}
-                placeholderTextColor="#87CEFF"
-                style={{ with: wp('20%'), height: hp('3.7%'), fontSize: hp('2.7%'), backgroundColor: 'rgba(255, 255, 0, 0.5)', borderRadius: 5, padding: 0, color: '#00BFFF', fontWeight: 'bold', zIndex: 1, position: 'relative', bottom: hp('0%'), }}
+                placeholderTextColor="#777"
+                style={{ with: wp('20%'), height: hp('3.7%'), fontSize: hp('2.7%'), backgroundColor: 'rgba(0, 0, 0, 0.05)', borderRadius: 5, padding: 0, color: '#00f', 
+                fontWeight: 'bold', zIndex: 1, position: 'relative', bottom: hp('0%'), }}
               />
             </View>
 
@@ -339,20 +354,32 @@ const CalendarDate = ({ route, navigation }) => {
                 allowFontScaling={false}
                 numberOfLines={1}
                 adjustsFontSizeToFit
-                style={{ paddingLeft: 0, fontSize: hp('2.3%'), fontWeight: 'bold', color: '#333', }}>
-                {` - âm lịch`}
+                style={{ paddingLeft: 0, fontSize: hp('2.2%'), fontWeight: 'bold', color: '#333', }}>
+                {` - âm lịch:`}
               </Text>
 
             </View>
           </View>
 
           <View style={{ marginHorizontal: wp('20%') }}>
-            <Text allowFontScaling={false} style={{ fontSize: hp('2%'), fontWeight: '700' }}>{`Ngày ${Object.keys(LD).length != 0 ? LD.date : ""} (${Object.keys(LD).length != 0 ? LD.lunarDate.can : ""} ${Object.keys(LD).length != 0 ? LD.lunarDate.chi : ""})`}</Text>
-            <Text allowFontScaling={false} style={{ fontSize: hp('2%'), fontWeight: '700' }}>{`Tháng ${Object.keys(LD).length != 0 ? LD.month : ""} ${Object.keys(LD).length != 0 ? LD.isLeap == true ? 'Nhuận' : "" : ""} (${Object.keys(LD).length != 0 ? LD.lunarMonth.can : ""} ${Object.keys(LD).length != 0 ? LD.lunarMonth.chi : ""})`}</Text>
-            <Text allowFontScaling={false} style={{ fontSize: hp('2%'), fontWeight: '700' }}>{`Năm ${Object.keys(LD).length != 0 ? LD.year : ""} (${Object.keys(LD).length != 0 ? LD.lunarYear.can : ""} ${Object.keys(LD).length != 0 ? LD.lunarYear.chi : ""})`}</Text>
-            <Text allowFontScaling={false} style={{ fontSize: hp('2%'), fontWeight: '700' }}>{`Giờ ${Object.keys(LD).length != 0 ? LD.lunarHour.can : ""} ${Object.keys(LD).length != 0 ? LD.lunarHour.chi : ""}`}</Text>
-            <Text allowFontScaling={false} style={{ fontSize: hp('2%'), fontWeight: '700' }}>{`Tiết ${Object.keys(LD).length != 0 ? LD.solarTerm : ""}`}</Text>
-            <Text allowFontScaling={false} style={{ fontSize: hp('1.98%'), fontWeight: '700' }}>{`Giờ hoàng đạo: ${Object.keys(LD).length != 0 ? LD.luckyHours : ""}`}</Text>
+            <Text allowFontScaling={false} style={{ fontSize: hp('2%'), fontWeight: '700', color: '#555', }}>
+              {`Ngày ${Object.keys(LD).length != 0 ? LD.date : ""} (${Object.keys(LD).length != 0 ? LD.lunarDate.can : ""} ${Object.keys(LD).length != 0 ? LD.lunarDate.chi : ""})`}
+            </Text>
+            <Text allowFontScaling={false} style={{ fontSize: hp('2%'), fontWeight: '700', color: '#555', }}>
+              {`Tháng ${Object.keys(LD).length != 0 ? LD.month : ""} ${Object.keys(LD).length != 0 ? LD.isLeap == true ? 'Nhuận' : "" : ""} (${Object.keys(LD).length != 0 ? LD.lunarMonth.can : ""} ${Object.keys(LD).length != 0 ? LD.lunarMonth.chi : ""})`}
+            </Text>
+            <Text allowFontScaling={false} style={{ fontSize: hp('2%'), fontWeight: '700', color: '#555', }}>
+              {`Năm ${Object.keys(LD).length != 0 ? LD.year : ""} (${Object.keys(LD).length != 0 ? LD.lunarYear.can : ""} ${Object.keys(LD).length != 0 ? LD.lunarYear.chi : ""})`}
+            </Text>
+            <Text allowFontScaling={false} style={{ fontSize: hp('2%'), fontWeight: '700', color: '#555', }}>
+              {`Giờ ${Object.keys(LD).length != 0 ? LD.lunarHour.can : ""} ${Object.keys(LD).length != 0 ? LD.lunarHour.chi : ""}`}
+            </Text>
+            <Text allowFontScaling={false} style={{ fontSize: hp('2%'), fontWeight: '700', color: '#555', }}>
+              {`Tiết ${Object.keys(LD).length != 0 ? LD.solarTerm : ""}`}
+            </Text>
+            <Text allowFontScaling={false} style={{ fontSize: hp('1.98%'), fontWeight: '700', color: '#555', }}>
+              {`Giờ hoàng đạo: ${Object.keys(LD).length != 0 ? LD.luckyHours : ""}`}
+            </Text>
           </View>
 
         </View >
@@ -360,11 +387,17 @@ const CalendarDate = ({ route, navigation }) => {
         {/* Hiển thị các ngày âm lịch - dương lịch quan trọng trong 11/2022 - 12/2023 */}
         <View style={{ height: '70%', }}>
           <View style={{ paddingHorizontal: wp('3%'), marginTop: hp('1%'), }}>
-            <Text allowFontScaling={false} style={{ width: wp('100%'), fontSize: hp('2.25%'), fontWeight: 'bold', color: '#333' }}>Những ngày đáng chú ý (11/2022-12/2023)</Text>
+            <Text allowFontScaling={false} style={{ width: wp('100%'), fontSize: hp('2.2%'), fontWeight: 'bold', color: '#333', paddingVertical: 2, }}>
+              Những ngày đáng chú ý (11/2022-12/2023)
+            </Text>
 
             <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
-              <Text allowFontScaling={false} style={{ width: wp('50%'), lineHeight: hp('3%'), backgroundColor: 'rgba(255, 0, 0, 0.2)', textAlign: 'center', fontWeight: '700' }}>Dương lịch</Text>
-              <Text allowFontScaling={false} style={{ width: wp('50%'), lineHeight: hp('3%'), backgroundColor: 'rgba(0, 0, 255, 0.2)', textAlign: 'center', fontWeight: '700' }}>Âm lịch</Text>
+              <Text allowFontScaling={false} style={{ width: wp('50%'), lineHeight: hp('3%'), backgroundColor: 'rgba(255, 0, 0, 0.3)', textAlign: 'center', fontWeight: '700', paddingVertical: 3, color: '#333', }}>
+                Dương lịch
+              </Text>
+              <Text allowFontScaling={false} style={{ width: wp('50%'), lineHeight: hp('3%'), backgroundColor: 'rgba(0, 0, 255, 0.3)', textAlign: 'center', fontWeight: '700', paddingVertical: 3, color: '#333', }}>
+                Âm lịch
+              </Text>
             </View>
           </View>
 

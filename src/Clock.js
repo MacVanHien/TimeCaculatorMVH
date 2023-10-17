@@ -16,6 +16,8 @@ const Clock = () => {
   const [dateState, setDateState] = useState('')
   const [dayState, setDayState] = useState('')
   const [monthState, setMonthState] = useState('')
+  const [yearState, setYearState] = useState('')
+
 
   const months = ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"];
   const days = ["Chủ nhật", "Thứ hai", "Thứ ba", "Thứ tư", "Thứ năm", "Thứ sáu", "Thứ bảy",]
@@ -28,6 +30,7 @@ const Clock = () => {
       setDayState(date.getDay())
       setDateState(date.getDate())
       setMonthState(date.getMonth())
+      setYearState(date.getFullYear())
     }, 1000);
   }, [])
 
@@ -56,87 +59,41 @@ const Clock = () => {
 
 
   return (
-    <View style = {{ width: WIDTH*0.95, justifyContent: 'center', alignItems: 'center', }}>
-      {/* Hiển thị Đồng hồ, ngày tháng theo dương lịch */}
-      <View style={{ margin: 0, flexDirection: 'row', }}>
+    <View style = {{ width: WIDTH, justifyContent: 'center', alignItems: 'center', }}>
+      <View style={{ marginTop: 10, justifyContent: 'center', alignItems: 'center', }}>
+        {/* Hiển thị Đồng hồ, ngày tháng theo dương lịch */}
         <Text
           allowFontScaling={false}
           style={{
-            textShadowColor: "rgba(0,0,0 , 1)",
-            textShadowRadius: 20, color: 'white', fontSize: hp('3.8%'), fontWeight: 'bold',
-          }}>{`${momentTime} `} 
+            textShadowColor: "rgba(0,0,0 , 1)", paddingVertical: 5, 
+            textShadowRadius: 20, color: 'white', fontSize: hp('3.5%'), fontWeight: 'bold',
+          }}
+        >
+          {`${momentTime} `} 
         </Text>
         <Text
           allowFontScaling={false}
           style={{
             textShadowColor: "rgba(0,0,0 , 1)",
-            textShadowRadius: 20, color: 'white', fontSize: hp('2.2%'), fontWeight: 'bold', lineHeight: hp('5.5%')
-          }}>{`${days[dayState]}, `}
+            textShadowRadius: 20, color: 'white', fontSize: hp('2%'), fontWeight: 'bold',
+          }}
+        >
+          {`${days[dayState]}, ${dateState} ${months[monthState]}, ${yearState}`}
         </Text>
+
+        {/* Hiện thị ngày tháng âm lịch */}
         <Text
           allowFontScaling={false}
           style={{
-            textShadowColor: "rgba(0,0,0 , 1)",
-            textShadowRadius: 20, color: 'white', fontSize: hp('2.2%'), fontWeight: 'bold', lineHeight: hp('5.5%')
-          }}>{`${dateState} `}
+            textShadowColor: "rgba(0,0,0 , 1)", paddingVertical: 3, marginBottom: 15,
+            textShadowRadius: 20, margin: 0, color: 'white', fontSize: hp('2%'), fontWeight: 'bold',
+          }}
+        >
+          {`${LD.date}/${LD.month}${LD.isLeap == true ? ' Nhuận' : ''}/${LD.lunarYear.can} ${LD.lunarYear.chi} ${LD.year} `}
         </Text>
-        <Text
-          allowFontScaling={false}
-          style={{
-            textShadowColor: "rgba(0,0,0 , 1)",
-            textShadowRadius: 20, color: 'white', fontSize: hp('2.2%'), fontWeight: 'bold', lineHeight: hp('5.5%')
-          }}>{months[monthState]}
-        </Text>
+
       </View>
 
-      {/* Hiển thị ngày theo âm lịch Việt Nam */}
-      <View style={{ margin: 0, marginLeft: wp('19%'), flexDirection: 'row', position: 'relative', bottom: hp('1.2%') }}>
-
-        <Text
-          allowFontScaling={false}
-          style={{
-            textShadowColor: "rgba(0,0,0 , 1)",
-            textShadowRadius: 20, margin: 0, color: 'white', fontSize: hp('2%'), fontWeight: 'bold', lineHeight: hp('5.5%'), marginLeft: wp('5%')}}>
-              {`${LD.date}/`}
-        </Text>
-      
-        <Text
-          allowFontScaling={false}
-          style={{
-            textShadowColor: "rgba(0,0,0 , 1)",
-            textShadowRadius: 20, margin: 0, color: 'white', fontSize: hp('2%'), fontWeight: 'bold', lineHeight: hp('5.5%')
-          }}>{`${LD.month}${LD.isLeap == true ? ' Nhuận' : ''}/`}
-        </Text>
-        <Text
-          allowFontScaling={false}
-          style={{
-            textShadowColor: "rgba(0,0,0 , 1)",
-            textShadowRadius: 20, margin: 0, color: 'white', fontSize: hp('2%'), fontWeight: 'bold', lineHeight: hp('5.5%')
-          }}>{`${LD.lunarYear.can} ${LD.lunarYear.chi} `}
-        </Text>
-        <Text
-          allowFontScaling={false}
-          style={{
-            textShadowColor: "rgba(0,0,0 , 1)",
-            textShadowRadius: 20, margin: 0, color: 'white', fontSize: hp('2%'), fontWeight: 'bold', lineHeight: hp('5.5%')
-          }}>{`${LD.year} `}
-        </Text>
-        {/* <Text
-          allowFontScaling={false}
-          style={{
-            textShadowColor: "rgba(0,0,0 , 1)",
-            textShadowRadius: 20, margin: 0, color: 'white', fontSize: hp('2.2%'), fontWeight: 'bold', lineHeight: hp('5.5%')
-          }}>{` ngày ${LD.lunarDate.chi} - `}
-        </Text>
-        <Text
-          allowFontScaling={false}
-          style={{
-            textShadowColor: "rgba(0,0,0 , 1)",
-            textShadowRadius: 20, margin: 0, color: 'white', fontSize: hp('2.2%'), fontWeight: 'bold', lineHeight: hp('5.5%')
-          }}>{` tháng ${LD.lunarMonth.chi}`}
-        </Text> */}
-        
-      </View>
     </View>
 
   )

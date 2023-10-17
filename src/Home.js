@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View, ImageBackground, TextInput, Dimensions, Image, TouchableOpacity, Alert, ScrollView, Modal, StyleSheet, } from 'react-native';
+import { Text, View, ImageBackground, TextInput, Dimensions, Image, TouchableOpacity, ScrollView, Modal, Alert, } from 'react-native';
 // import AnalogClock from 'react-native-clock-analog';
 import moment from 'moment-timezone';
 import InternetConnectionAlert from "react-native-internet-connection-alert";
 
 import Clock from './Clock'
+import AppAddNote from './addNote/AppAddNote'
 
 import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads';
 const adUnitId = __DEV__ ? TestIds.BANNER : 'ca-app-pub-2701884189550059/1580395814';
 
 const WIDTH = Dimensions.get("window").width
-const HIEGHT = Dimensions.get("window").height
+const HEIGHT = Dimensions.get("window").height
 
 import auth from '@react-native-firebase/auth';
 // import database from '@react-native-firebase/database';
@@ -25,7 +26,8 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 
 export default function Home({ route, navigation }) {
     const [modalVisible, setModalVisible] = useState(true);
-    const [modalVisible2, setModalVisible2] = useState(false);
+    const [modalVisible2, setModalVisible2] = useState(false); 
+    const [modalVisibleAddNote, setModalVisibleAddNote] = useState(false); 
 
     const [userId, setUserId] = useState(0);
     const [userName, setUserName] = useState('');
@@ -54,31 +56,23 @@ export default function Home({ route, navigation }) {
     const [sharedHearts, setSharedHearts] = useState(0)
     // const [dayTime, setDayTime] = useState('20220222'); //Để mặc định là  1 ngày nào đó trong quá khứ để chạy ok
 
-    const [point, setPoint] = useState('');
 
     const [point1, setPoint1] = useState('');
-    const [point2, setPoint2] = useState('');
-    const [point3, setPoint3] = useState('');
-    const [point4, setPoint4] = useState('');
-    const [point5, setPoint5] = useState('');
+    const [point1b, setPoint1b] = useState('');
 
     const [dayPoint1, setDayPoint1] = useState('');
-    const [dayPoint2, setDayPoint2] = useState('');
-    const [dayPoint3, setDayPoint3] = useState('');
-    const [dayPoint4, setDayPoint4] = useState('');
-    const [dayPoint5, setDayPoint5] = useState('');
+    const [dayPoint1b, setDayPoint1b] = useState('');
 
     const [takeDayPoint1, setTakeDayPoint1] = useState(0);
-    const [takeDayPoint2, setTakeDayPoint2] = useState(0);
-    const [takeDayPoint3, setTakeDayPoint3] = useState(0);
-    const [takeDayPoint4, setTakeDayPoint4] = useState(0);
-    const [takeDayPoint5, setTakeDayPoint5] = useState(0);
+    const [takeDayPoint1b, setTakeDayPoint1b] = useState(0);
 
     const [getColorUsersFeeling, setGetColorUsersFeeling] = useState()
 
     const [dataColor, setDataColor] = useState([])
     const [dataGiveHeart, setDataGiveHeart] = useState([])
     const [countDataColorFirst, setCountDataColorFirst] = useState(0) //Để chạy 1 lần duy nhất việc lấy màu hiển thị chung
+
+
 
     //modal loading 1,5s
     useEffect(() => {
@@ -358,32 +352,13 @@ export default function Home({ route, navigation }) {
             var daysTillTheDayd1 = Math.floor(msDiffd1 / (1000 * 60 * 60 * 24));
             setTakeDayPoint1(daysTillTheDayd1);
         }
-        if (!!moment(dayPoint2, 'DD/MM/YYYY') == true) {
-            let d2 = moment(dayPoint2, 'DD/MM/YYYY').format(); //để đc dạng "2022-06-30"
-            var msDiffd2 = new Date(d2).getTime() - new Date().getTime(); //Future date - current date
+        if (!!moment(dayPoint1b, 'DD/MM/YYYY') == true) {
+            let d2 = moment(dayPoint1b, 'DD/MM/YYYY').format(); //để đc dạng "2022-06-30"
+            var msDiffd2 = new Date().getTime() - new Date(d2).getTime(); //Future date - current date
             var daysTillTheDayd2 = Math.floor(msDiffd2 / (1000 * 60 * 60 * 24));
-            setTakeDayPoint2(daysTillTheDayd2);
+            setTakeDayPoint1b(daysTillTheDayd2);
         }
-        if (!!moment(dayPoint3, 'DD/MM/YYYY') == true) {
-            let d3 = moment(dayPoint3, 'DD/MM/YYYY').format(); //để đc dạng "2022-06-30"
-            var msDiffd3 = new Date(d3).getTime() - new Date().getTime(); //Future date - current date
-            var daysTillTheDayd3 = Math.floor(msDiffd3 / (1000 * 60 * 60 * 24));
-            setTakeDayPoint3(daysTillTheDayd3);
-        }
-        if (!!moment(dayPoint4, 'DD/MM/YYYY') == true) {
-            let d4 = moment(dayPoint4, 'DD/MM/YYYY').format(); //để đc dạng "2022-06-30"
-            var msDiffd4 = new Date(d4).getTime() - new Date().getTime(); //Future date - current date
-            var daysTillTheDayd4 = Math.floor(msDiffd4 / (1000 * 60 * 60 * 24));
-            // console.log("🚀 ~ file: Home.js ~ line 209 ~ useEffect ~ daysTillTheDayd4", daysTillTheDayd4)
-            setTakeDayPoint4(daysTillTheDayd4);
-        }
-        if (!!moment(dayPoint5, 'DD/MM/YYYY') == true) {
-            let d5 = moment(dayPoint5, 'DD/MM/YYYY').format(); //để đc dạng "2022-06-30"
-            var msDiffd5 = new Date(d5).getTime() - new Date().getTime(); //Future date - current date
-            var daysTillTheDayd5 = Math.floor(msDiffd5 / (1000 * 60 * 60 * 24));
-            setTakeDayPoint5(daysTillTheDayd5);
-        }
-    }, [dayPoint1, dayPoint2, dayPoint3, dayPoint4, dayPoint5])
+    }, [dayPoint1, dayPoint1b])
 
 
     //get User Data Infor point 1 - 5, dayPoint 1 - 5
@@ -394,39 +369,19 @@ export default function Home({ route, navigation }) {
 
     function getUserDataInfor() {
         if (userId) {
-            firebase.database().ref(`users/${userId}/point`).on('value', snapshot => {
-                snapshot.val() !== null && setPoint(snapshot.val());
-            });
             firebase.database().ref(`users/${userId}/point1`).on('value', snapshot => {
                 snapshot.val() !== null && setPoint1(snapshot.val());
             });
-            firebase.database().ref(`users/${userId}/point2`).on('value', snapshot => {
-                snapshot.val() !== null && setPoint2(snapshot.val());
-            });
-            firebase.database().ref(`users/${userId}/point3`).on('value', snapshot => {
-                snapshot.val() !== null && setPoint3(snapshot.val());
-            });
-            firebase.database().ref(`users/${userId}/point4`).on('value', snapshot => {
-                snapshot.val() !== null && setPoint4(snapshot.val());
-            });
-            firebase.database().ref(`users/${userId}/point5`).on('value', snapshot => {
-                snapshot.val() !== null && setPoint5(snapshot.val());
+            firebase.database().ref(`users/${userId}/point1b`).on('value', snapshot => {
+                snapshot.val() !== null && setPoint1b(snapshot.val());
             });
             firebase.database().ref(`users/${userId}/dayPoint1`).on('value', snapshot => {
                 snapshot.val() !== null && setDayPoint1(snapshot.val());
             });
-            firebase.database().ref(`users/${userId}/dayPoint2`).on('value', snapshot => {
-                snapshot.val() !== null && setDayPoint2(snapshot.val());
+            firebase.database().ref(`users/${userId}/dayPoint1b`).on('value', snapshot => {
+                snapshot.val() !== null && setDayPoint1b(snapshot.val());
             });
-            firebase.database().ref(`users/${userId}/dayPoint3`).on('value', snapshot => {
-                snapshot.val() !== null && setDayPoint3(snapshot.val());
-            });
-            firebase.database().ref(`users/${userId}/dayPoint4`).on('value', snapshot => {
-                snapshot.val() !== null && setDayPoint4(snapshot.val());
-            });
-            firebase.database().ref(`users/${userId}/dayPoint5`).on('value', snapshot => {
-                snapshot.val() !== null && setDayPoint5(snapshot.val());
-            });
+
             //lấy toDate và toNow về //Chỉ lấy lần đầu tiên sau khi vào app
             firebase.database().ref(`users/${userId}/todayToDate`).once('value', snapshot => {
                 snapshot.val() !== null && setToDate(snapshot.val());
@@ -439,28 +394,28 @@ export default function Home({ route, navigation }) {
     }
 
 
-    // signOutUser = async () => {
-    //     try {
-    //         await auth().signOut()
-    //     } catch (e) {
-    //         console.log(e)
-    //     }
-    // }
+    signOutUser = async () => {
+        try {
+            await auth().signOut()
+        } catch (e) {
+            console.log(e)
+        }
+    }
 
-    //Tạo bảng thông báo chắc chắn muốn đăng xuất
-    // const createTwoButtonAlert = () =>
-    //     Alert.alert(
-    //         "", //Alert Title
-    //         "Bạn chắc chắn muốn đăng xuất ?",
-    //         [
-    //             {
-    //                 text: "Hủy bỏ",
-    //                 onPress: () => console.log("Cancel Pressed"),
-    //                 style: "cancel"
-    //             },
-    //             { text: "OK", onPress: () => signOutUser() }
-    //         ]
-    //     );
+    // Tạo bảng thông báo chắc chắn muốn đăng xuất
+    const createTwoButtonAlert = () =>
+        Alert.alert(
+            "", //Alert Title
+            "Bạn chắc chắn muốn đăng xuất ?",
+            [
+                {
+                    text: "Hủy bỏ",
+                    onPress: () => console.log("Cancel Pressed"),
+                    style: "cancel"
+                },
+                { text: "OK", onPress: () => signOutUser() }
+            ]
+        );
 
 
     //Set đếm ngày các đích về 0 khi đã về 0 hoặc âm ngày
@@ -468,19 +423,10 @@ export default function Home({ route, navigation }) {
         if (takeDayPoint1 <= 0) { //Chú ý tránh trường hợp lặp lại vô hạn lần !
             setTakeDayPoint1(0)
         }
-        if (takeDayPoint2 <= 0) {
-            setTakeDayPoint2(0)
+        if (takeDayPoint1b <= 0) {
+            setTakeDayPoint1b(0)
         }
-        if (takeDayPoint3 <= 0) {
-            setTakeDayPoint3(0)
-        }
-        if (takeDayPoint4 <= 0) {
-            setTakeDayPoint4(0)
-        }
-        if (takeDayPoint5 <= 0) {
-            setTakeDayPoint5(0)
-        }
-    }, [takeDayPoint1, takeDayPoint2, takeDayPoint3, takeDayPoint4, takeDayPoint5])
+    }, [takeDayPoint1, takeDayPoint1b])
 
 
     //Lưu toDate, toNow lên firebase
@@ -492,6 +438,9 @@ export default function Home({ route, navigation }) {
             firebase.database().ref(`users/${userId}/dateToToday`).set(toNow)
         }
     }, [toNow, toDate])
+
+
+
 
 
 
@@ -512,19 +461,27 @@ export default function Home({ route, navigation }) {
                     style={{ height: '100%', width: WIDTH, }}>
                     <View style={{ height: '100%', }}>
                         {/* Hiển thị phần logo và câu hỏi cảm xúc mở đầu */}
-                        <View style={{ display: isHeaderHello, height: HIEGHT * 0.096, width: WIDTH, backgroundColor: 'rgba(255, 250, 240, 0.99)', paddingTop: 1, paddingLeft: 8, margin: 0, justifyContent: 'center', }}>
+                        <View
+                            style={{
+                                display: isHeaderHello, height: HEIGHT * 0.096, width: WIDTH, backgroundColor: 'rgba(255, 250, 240, 0.99)',
+                                paddingTop: 1, paddingLeft: 8, margin: 0, justifyContent: 'center',
+                            }}
+                        >
                             <View style={{ flexDirection: 'row', width: WIDTH, alignItems: 'center', margin: 0 }}>
-                                <View
-                                    // onPress={createTwoButtonAlert}
+                                <TouchableOpacity
+                                    onPress={createTwoButtonAlert}
                                     style={{ padding: hp('0.5%'), borderRadius: 50 }}
                                 >
                                     <Image
                                         allowFontScaling={false}
                                         source={require('./imges/iconTimeCalculator1.png')}
-                                        style={{ width: WIDTH * 0.12, height: WIDTH * 0.12, borderRadius: 50, backgroundColor: 'rgba(250, 250, 250)', position: 'relative', bottom: hp('-0.5%') }}
+                                        style={{
+                                            width: WIDTH * 0.12, height: WIDTH * 0.12, borderRadius: 50, backgroundColor: 'rgba(250, 250, 250)',
+                                            position: 'relative', bottom: hp('-0.5%')
+                                        }}
                                         resizeMode="contain"
                                     />
-                                </View>
+                                </TouchableOpacity>
 
                                 <Text
                                     allowFontScaling={false}
@@ -544,9 +501,13 @@ export default function Home({ route, navigation }) {
                         </View>
 
                         {/* Hiển thị phần logo và câu hỏi cảm xúc mở đầu khi đã chọn màu cảm xúc */}
-                        <View style={{ display: isHeader, flexDirection: 'row', height: HIEGHT * 0.096, width: WIDTH, backgroundColor: 'rgba(255, 250, 240, 0.99)', justifyContent: 'center', alignItems: 'center' }}>
+                        <View
+                            style={{
+                                display: isHeader, flexDirection: 'row', height: HEIGHT * 0.096, width: WIDTH, backgroundColor: 'rgba(255, 250, 240, 0.99)',
+                                justifyContent: 'center', alignItems: 'center'
+                            }}>
                             <View
-                                // onPress={createTwoButtonAlert}
+                            // onPress={createTwoButtonAlert}
                             >
                                 <Image
                                     allowFontScaling={false}
@@ -567,13 +528,13 @@ export default function Home({ route, navigation }) {
                                 numberOfLines={1}
                                 adjustsFontSizeToFit
                                 style={{ color: '#333', fontSize: hp('2%'), fontWeight: 'bold', marginLeft: wp('2%'), }}>
-                                v.1.2
+                                v.2.1
                             </Text>
                         </View>
 
 
                         {/* Hiển thị phần chọn màu cảm xúc - và màu đa số được chọn */}
-                        <View style={{ height: HIEGHT * 0.096, width: WIDTH, alignItems: 'center', justifyContent: 'center', }}>
+                        <View style={{ height: HEIGHT * 0.096, width: WIDTH, alignItems: 'center', justifyContent: 'center', }}>
                             <View style={{ display: isColorForFelling, flexDirection: 'row', height: '100%' }}>
                                 <TouchableOpacity
                                     onPress={() => updateFirebaseAndShowMediumColor('#FFA500')}
@@ -583,7 +544,7 @@ export default function Home({ route, navigation }) {
                                         allowFontScaling={false}
                                         numberOfLines={3}
                                         adjustsFontSizeToFit
-                                        style={{ fontSize: hp('2.3%'), color: 'yellow', paddingHorizontal: 2, textAlign: 'center', fontWeight: 'bold' }}>rất vui, hạnh phúc</Text>
+                                        style={{ fontSize: hp('2.1%'), color: 'yellow', paddingHorizontal: 2, textAlign: 'center', fontWeight: 'bold' }}>rất vui, hạnh phúc</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity
                                     onPress={() => updateFirebaseAndShowMediumColor('#FFFF00')}
@@ -593,7 +554,7 @@ export default function Home({ route, navigation }) {
                                         allowFontScaling={false}
                                         numberOfLines={2}
                                         adjustsFontSizeToFit
-                                        style={{ fontSize: hp('2.3%'), color: '#fff', paddingHorizontal: 2, textAlign: 'center', fontWeight: 'bold' }}>vui vẻ</Text>
+                                        style={{ fontSize: hp('2.1%'), color: '#fff', paddingHorizontal: 2, textAlign: 'center', fontWeight: 'bold' }}>vui vẻ</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity
                                     onPress={() => updateFirebaseAndShowMediumColor('#FFF')}
@@ -603,7 +564,9 @@ export default function Home({ route, navigation }) {
                                         allowFontScaling={false}
                                         numberOfLines={2}
                                         adjustsFontSizeToFit
-                                        style={{ fontSize: hp('2.3%'), color: '#FFFAFA', paddingHorizontal: 2, textAlign: 'center', fontWeight: 'bold' }}>bình thường</Text>
+                                        style={{ fontSize: hp('2.1%'), color: '#FFFAFA', paddingHorizontal: 2, textAlign: 'center', fontWeight: 'bold' }}>
+                                        bình thường
+                                    </Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity
                                     onPress={() => updateFirebaseNotShowMediumColor('#0000FF')}
@@ -611,7 +574,9 @@ export default function Home({ route, navigation }) {
                                 >
                                     <Text
                                         allowFontScaling={false}
-                                        style={{ fontSize: hp('2.3%'), color: '#fff', paddingHorizontal: 2, opacity: 0.8, textAlign: 'center', fontWeight: 'bold' }}>buồn</Text>
+                                        style={{ fontSize: hp('2.1%'), color: '#fff', paddingHorizontal: 2, opacity: 0.8, textAlign: 'center', fontWeight: 'bold' }}>
+                                        buồn
+                                    </Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity
                                     onPress={() => updateFirebaseNotShowMediumColor('#000')}
@@ -619,11 +584,17 @@ export default function Home({ route, navigation }) {
                                 >
                                     <Text
                                         allowFontScaling={false}
-                                        style={{ fontSize: hp('2.3%'), color: '#fff', paddingHorizontal: 2, opacity: 0.22, textAlign: 'center', fontWeight: 'bold' }}>rất buồn</Text>
+                                        style={{ fontSize: hp('2.1%'), color: '#fff', paddingHorizontal: 2, opacity: 0.22, textAlign: 'center', fontWeight: 'bold' }}>
+                                        rất buồn
+                                    </Text>
                                 </TouchableOpacity>
                             </View>
 
-                            <View style={{ display: isShareWithHeart, backgroundColor: getColorUsersFeeling != "#000" ? getColorUsersFeeling : 'rgba(0, 0, 0, 0.3)', opacity: 0.9, width: WIDTH, height: '100%', justifyContent: 'center', alignItems: 'center' }}>
+                            <View
+                                style={{
+                                    display: isShareWithHeart, backgroundColor: getColorUsersFeeling != "#000" ? getColorUsersFeeling : 'rgba(0, 0, 0, 0.3)',
+                                    opacity: 0.9, width: WIDTH, height: '100%', justifyContent: 'center', alignItems: 'center'
+                                }}>
                                 <View style={{ flexDirection: 'row', width: WIDTH, justifyContent: 'center', alignItems: 'center', }}>
                                     <Text
                                         allowFontScaling={false}
@@ -667,7 +638,11 @@ export default function Home({ route, navigation }) {
                                 </View>
                             </View>
 
-                            <View style={{ paddingHorizontal: 3, display: isSentenceWishFun, backgroundColor: getColorUsersFeeling != "#000" ? getColorUsersFeeling : 'rgba(0, 0, 0, 0.3)', opacity: 0.9, width: WIDTH, height: '100%', paddingVertical: 15, justifyContent: 'center', alignItems: 'center' }}>
+                            <View
+                                style={{
+                                    paddingHorizontal: 3, display: isSentenceWishFun, backgroundColor: getColorUsersFeeling != "#000" ? getColorUsersFeeling : 'rgba(0, 0, 0, 0.3)',
+                                    opacity: 0.9, width: WIDTH, height: '100%', paddingVertical: 15, justifyContent: 'center', alignItems: 'center'
+                                }}>
                                 <Text
                                     allowFontScaling={false}
                                     numberOfLines={1}
@@ -677,7 +652,11 @@ export default function Home({ route, navigation }) {
                                 </Text>
                             </View>
 
-                            <View style={{ paddingHorizontal: 3, display: isSentenceBestWish, backgroundColor: 'rgba(0, 238, 118, 0.2)', width: WIDTH, height: '100%', paddingVertical: 15, justifyContent: 'center', alignItems: 'center' }}>
+                            <View
+                                style={{
+                                    paddingHorizontal: 3, display: isSentenceBestWish, backgroundColor: 'rgba(0, 238, 118, 0.2)', width: WIDTH, height: '100%',
+                                    paddingVertical: 15, justifyContent: 'center', alignItems: 'center'
+                                }}>
                                 <Text
                                     allowFontScaling={false}
                                     numberOfLines={1}
@@ -686,72 +665,33 @@ export default function Home({ route, navigation }) {
                                     Mong những điều tốt đẹp nhất đến với bạn
                                 </Text>
                             </View>
-                            {/* <View style={{ display: isShareWithHeart, backgroundColor: 'red', opacity: 0.9, width: WIDTH, justifyContent: 'center', alignItems: 'center', paddingVertical: 0, position: 'relative', height: 0.01, top: 0, }}>
-                        </View> */}
+                            {/* <View style={{ display: isShareWithHeart, backgroundColor: 'red', opacity: 0.9, width: WIDTH, justifyContent: 'center', alignItems: 'center', 
+                            paddingVertical: 0, position: 'relative', height: 0.01, top: 0, }}>
+                            </View> */}
                         </View>
 
-                        {/* Hiển thị bảng chức năng tính ngày Đếm ngày và bảng kết quả và Bảng phần hoạch định đến đích */}
-                        <View style={{ height: HIEGHT * 0.0096 * 65, alignItems: 'center', justifyContent: 'center' }}>
-                            {/* Hiển thị bảng chức năng tính ngày Đếm ngày và bảng kết quả  */}
-                            <View style={{ width: WIDTH, height: '45%', justifyContent: 'center', alignItems: 'center', borderRadius: 5, marginLeft: 0, }}>
+
+                        {/* Hiển thị Đồng hồ - bảng tính-Đếm ngày - phần hoạch định đến đích */}
+                        <View style={{ height: HEIGHT * 0.0096 * 66, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0, 0, 0, 0.6)', }}>
+                            {/* Hiển thị Đồng hồ - bảng tính-Đếm ngày   */}
+                            <View style={{ width: WIDTH, height: '50%', justifyContent: 'center', alignItems: 'center', borderRadius: 5, marginLeft: 0, }}>
                                 {/* Hiển thị đồng hồ, ngày tháng âm lịch, dương lịch và nút sang trang chuyển đổi ngày dương-âm lịch */}
-                                <View style={{flexDirection: 'row', width: WIDTH, paddingLeft: wp('2%'), marginTop: HIEGHT * 0.03, flexWrap: 'wrap', }}>
+                                <View style={{ flexDirection: 'row', width: WIDTH, paddingLeft: wp('2%'), marginTop: HEIGHT * 0.02, flexWrap: 'wrap', }}>
                                     {/* Đồng hồ, ngày tháng âm - dương */}
                                     {<Clock />}
-
-                                    <View style = {{height: hp('10%'), width: wp('0.01%')}}>
-                                        {/* View làm mốc cho điểm relative của image */}
-                                        <TouchableOpacity
-                                            onPress={() => { navigation.navigate('CalendarDate') }}
-                                            style={{ padding: 0, width: WIDTH * 0.105, position: 'relative', bottom: hp('-4.4%'), left: wp('-11%'), zIndex: 101 }}
-                                        >
-                                            <Image
-                                                allowFontScaling={false}
-                                                source={require('./imges/calendarRmbackground.png')}
-                                                style={{ width: WIDTH * 0.1, height: WIDTH * 0.1, backgroundColor: '#87CEFF', opacity: 0.9, borderRadius: 50, marginLeft: wp('0%'), }}
-                                                resizeMode="contain"
-                                            />
-                                        </TouchableOpacity>
-                                    </View>
-                                    
-
                                 </View>
 
-                                <View style={{ backgroundColor: 'rgba(255, 250, 240, 0.95)', borderRadius: 8 }}>
-                                    <View style={{ width: wp('0.01%'), height: wp('0.1%') }}>
-                                        {/* Làm mốc cho ảnh Note */}
-                                        <TouchableOpacity
-                                            onPress={() => { setModalVisible2(!modalVisible2); }}
-                                            style={{ width: WIDTH * 0.15, padding: wp('2%'), position: 'relative', bottom: hp('6.5%'), left: wp('1%'), zIndex: 21,  }}>
-                                            <Image
-                                                allowFontScaling={false}
-                                                source={require('./imges/note.png')}
-                                                style={{ width: WIDTH * 0.1, height: WIDTH * 0.1, backgroundColor: '#87CEFF', borderRadius: 50, opacity: 0.5 }}
-                                                resizeMode="contain"
-                                            />
-                                        </TouchableOpacity>
-                                    </View>
-
-                                    <View style={{ marginVertical: hp('0.5%'), paddingLeft: wp('2%'), width: WIDTH, flexDirection: 'row', alignItems: 'center', }}>
+                                <View style={{ backgroundColor: '#fff', borderRadius: 8 }}>
+                                    <View style={{ marginVertical: hp('0.5%'), paddingLeft: wp('2%'), paddingTop: 8, width: WIDTH, flexDirection: 'row', alignItems: 'center', }}>
                                         <View style={{ marginLeft: 8, flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap' }}>
                                             <View style={{ maxWidth: wp('30%'), backgroundColor: 'rgba(0, 0, 0, 0.6)', borderRadius: 5, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center' }}>
                                                 <Text
                                                     allowFontScaling={false}
                                                     numberOfLines={1}
                                                     adjustsFontSizeToFit
-                                                    style={{ paddingHorizontal: wp('1.5%'), borderRadius: 5, color: '#FFD700', fontSize: hp('2.5%'), fontWeight: 'bold', }}>
-                                                    {`${takeToDate}`}
+                                                    style={{ paddingHorizontal: wp('1.5%'), borderRadius: 5, color: '#FFD700', fontSize: hp('2.3%'), fontWeight: 'bold', }}>
+                                                    {`${takeToDate} ngày`}
                                                 </Text>
-                                                <Text
-                                                    allowFontScaling={false}
-                                                    numberOfLines={1}
-                                                    adjustsFontSizeToFit
-                                                    style={{
-                                                        paddingRight: wp('0.8%'), color: '#FFD700', fontSize: hp('2.5%'), fontWeight: 'bold',
-                                                    }}>
-                                                    {`ngày`}
-                                                </Text>
-                                                {/* Tách ra để nếu quá chiều ngang thì xuống dòng */}
                                             </View>
 
                                             <Text
@@ -759,7 +699,7 @@ export default function Home({ route, navigation }) {
                                                 numberOfLines={1}
                                                 adjustsFontSizeToFit
                                                 style={{
-                                                    paddingLeft: 0, color: '#333', fontSize: hp('2.5%'), fontWeight: 'bold',
+                                                    paddingLeft: 0, color: '#333', fontSize: hp('2.3%'),
                                                 }}>
                                                 {` nữa đến ngày `}
                                             </Text>
@@ -774,18 +714,19 @@ export default function Home({ route, navigation }) {
                                                 placeholder="0"
                                                 placeholderTextColor="#87CEFF"
                                                 style={{
-                                                    width: wp('33%'), height: hp('3.5%'), marginHorizontal: wp('0.2%'), paddingHorizontal: wp('1%'), backgroundColor: 'rgba(255, 255, 0, 0.5)', borderRadius: 5, padding: 0, color: '#00BFFF', fontSize: hp('2.7%'), fontWeight: 'bold', zIndex: 1,
+                                                    width: wp('33%'), height: hp('3.5%'), marginHorizontal: wp('0.2%'), paddingHorizontal: wp('1%'), backgroundColor: 'rgba(0, 0, 0, 0.1)',
+                                                    borderRadius: 5, padding: 0, color: '#00f', fontSize: hp('2.5%'), fontWeight: 'bold', zIndex: 1,
                                                 }}
                                             />
                                         </View>
                                     </View>
 
-                                    <View style={{ paddingLeft: 18, width: WIDTH, flexDirection: 'row', marginVertical: 0, margin: 0, alignItems: 'center', marginBottom: 0 }}>
-                                        <View style={{ flexDirection: 'row', width: WIDTH * 0.65, alignItems: 'center', flexWrap: 'wrap' }}>
+                                    <View style={{ paddingLeft: 18, width: WIDTH, flexDirection: 'row', alignItems: 'center', paddingVertical: 2, }}>
+                                        <View style={{ flexDirection: 'row', width: WIDTH * 0.65, alignItems: 'center', flexWrap: 'wrap', }}>
                                             <Text
                                                 allowFontScaling={false}
                                                 style={{
-                                                    paddingLeft: 0, marginBottom: hp('0.5%'), color: '#333', fontSize: hp('2.5%'), fontWeight: 'bold'
+                                                    paddingLeft: 0, marginBottom: hp('0.5%'), color: '#333', fontSize: hp('2.3%'),
                                                 }}>
                                                 {`Bớt `}
                                             </Text>
@@ -796,13 +737,14 @@ export default function Home({ route, navigation }) {
                                                 placeholder=""
                                                 placeholderTextColor="#87CEFF"
                                                 style={{
-                                                    with: wp('20%'), height: hp('3.5%'), marginHorizontal: wp('1%'), paddingHorizontal: wp('1%'), backgroundColor: 'rgba(255, 255, 0, 0.5)', borderRadius: 5, padding: 0, color: '#00BFFF', fontSize: hp('2.7%'), fontWeight: 'bold', zIndex: 1,
+                                                    with: wp('20%'), height: hp('3.5%'), marginHorizontal: wp('1%'), paddingHorizontal: wp('1%'), backgroundColor: 'rgba(0, 0, 0, 0.1)',
+                                                    borderRadius: 5, padding: 0, color: '#00f', fontSize: hp('2.5%'), fontWeight: 'bold', zIndex: 1,
                                                 }}
                                             />
                                             <Text
                                                 allowFontScaling={false}
                                                 style={{
-                                                    paddingLeft: 0, color: '#333', fontSize: hp('2.5%'), fontWeight: 'bold'
+                                                    paddingLeft: 0, color: '#333', fontSize: hp('2.3%'),
                                                 }}>
                                                 {` ngày  là:`}
                                             </Text>
@@ -811,19 +753,19 @@ export default function Home({ route, navigation }) {
                                             <Text
                                                 allowFontScaling={false}
                                                 style={{
-                                                    color: '#FFD700', fontSize: hp('2.5%'), margin: 0, paddingHorizontal: 5, paddingVertical: 0, fontWeight: 'bold', width: WIDTH * 0.32
+                                                    color: '#FFD700', fontSize: hp('2.3%'), margin: 0, paddingHorizontal: 5, paddingVertical: 0, fontWeight: 'bold', width: WIDTH * 0.32
                                                 }}>
                                                 {takeSubtraction}
                                             </Text>
                                         </View>
                                     </View>
 
-                                    <View style={{ paddingLeft: 18, width: WIDTH, flexDirection: 'row', alignItems: 'center', marginBottom: 0 }}>
+                                    <View style={{ paddingLeft: 18, width: WIDTH, flexDirection: 'row', alignItems: 'center', marginBottom: 0, paddingVertical: 2, }}>
                                         <View style={{ flexDirection: 'row', width: WIDTH * 0.65, alignItems: 'center', flexWrap: 'wrap' }}>
                                             <Text
                                                 allowFontScaling={false}
                                                 style={{
-                                                    paddingLeft: 0, color: '#333', fontSize: hp('2.5%'), fontWeight: 'bold'
+                                                    paddingLeft: 0, color: '#333', fontSize: hp('2.3%'),
                                                 }}>
                                                 {`Thêm `}
                                             </Text>
@@ -834,13 +776,14 @@ export default function Home({ route, navigation }) {
                                                 placeholder=""
                                                 placeholderTextColor="#87CEFF"
                                                 style={{
-                                                    with: wp('20%'), height: hp('3.5%'), marginHorizontal: wp('1%'), paddingHorizontal: wp('1%'), backgroundColor: 'rgba(255, 255, 0, 0.5)', borderRadius: 5, padding: 0, color: '#00BFFF', fontSize: hp('2.7%'), fontWeight: 'bold', zIndex: 1,
+                                                    with: wp('20%'), height: hp('3.5%'), marginHorizontal: wp('1%'), paddingHorizontal: wp('1%'), backgroundColor: 'rgba(0, 0, 0, 0.1)',
+                                                    borderRadius: 5, padding: 0, color: '#00F', fontSize: hp('2.5%'), fontWeight: 'bold', zIndex: 1,
                                                 }}
                                             />
                                             <Text
                                                 allowFontScaling={false}
                                                 style={{
-                                                    paddingLeft: 0, color: '#333', fontSize: hp('2.5%'), fontWeight: 'bold'
+                                                    paddingLeft: 0, color: '#333', fontSize: hp('2.3%'),
                                                 }}>
                                                 {` ngày  là:`}
                                             </Text>
@@ -849,19 +792,19 @@ export default function Home({ route, navigation }) {
                                             <Text
                                                 allowFontScaling={false}
                                                 style={{
-                                                    marginRight: 20, color: '#FFD700', fontSize: hp('2.5%'), margin: 0, paddingHorizontal: 5, paddingRight: 0, fontWeight: 'bold', width: WIDTH * 0.32,
+                                                    marginRight: 20, color: '#FFD700', fontSize: hp('2.3%'), margin: 0, paddingHorizontal: 5, paddingRight: 0, fontWeight: 'bold', width: WIDTH * 0.32,
                                                 }}>
                                                 {takeSum}
                                             </Text>
                                         </View>
                                     </View>
 
-                                    <View style={{ marginVertical: hp('0.5%'), paddingLeft: 18, width: WIDTH, flexDirection: 'row', alignItems: 'center' }}>
+                                    <View style={{ marginVertical: hp('0.5%'), paddingLeft: 18, paddingBottom: 8, width: WIDTH, flexDirection: 'row', alignItems: 'center' }}>
                                         <View style={{ width: WIDTH * 0.65, flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', }}>
                                             <Text
                                                 allowFontScaling={false}
                                                 style={{
-                                                    paddingLeft: 0, color: '#333', fontSize: hp('2.5%'), fontWeight: 'bold',
+                                                    paddingLeft: 0, color: '#333', fontSize: hp('2.3%'),
                                                 }}>
                                                 Ngày
                                             </Text>
@@ -872,13 +815,14 @@ export default function Home({ route, navigation }) {
                                                 placeholder=""
                                                 placeholderTextColor="#87CEFF"
                                                 style={{
-                                                    with: wp('20%'), height: hp('3.5%'), marginHorizontal: wp('1%'), paddingHorizontal: wp('1%'), backgroundColor: 'rgba(255, 255, 0, 0.5)', borderRadius: 5, padding: 0, color: '#00BFFF', fontSize: hp('2.7%'), fontWeight: 'bold', zIndex: 1,
+                                                    with: wp('20%'), height: hp('3.5%'), marginHorizontal: wp('1%'), paddingHorizontal: wp('1%'), backgroundColor: 'rgba(0, 0, 0, 0.1)',
+                                                    borderRadius: 5, padding: 0, color: '#00F', fontSize: hp('2.5%'), fontWeight: 'bold', zIndex: 1,
                                                 }}
                                             />
                                             <Text
                                                 allowFontScaling={false}
                                                 style={{
-                                                    color: '#333', fontSize: hp('2.5%'), fontWeight: 'bold',
+                                                    color: '#333', fontSize: hp('2.3%'),
                                                 }}>
                                                 tới nay:
                                             </Text>
@@ -887,7 +831,7 @@ export default function Home({ route, navigation }) {
                                             <Text
                                                 allowFontScaling={false}
                                                 style={{
-                                                    lineHeight: hp('3.2%'), color: '#FFD700', fontSize: hp('2.5%'), margin: 0, paddingHorizontal: 5, fontWeight: 'bold', width: WIDTH * 0.32,
+                                                    lineHeight: hp('3.2%'), color: '#FFD700', fontSize: hp('2.3%'), margin: 0, paddingHorizontal: 5, fontWeight: 'bold', width: WIDTH * 0.32,
                                                 }}>
                                                 {`${fromNow} ngày`}
                                             </Text>
@@ -898,155 +842,186 @@ export default function Home({ route, navigation }) {
                             </View>
 
                             {/* Hiển thị phần hoạch định đến đích */}
-                            <ScrollView style={{ width: WIDTH, height: '55%', marginTop: hp('2%') }}>
-                                <View style={{ width: WIDTH, flexDirection: 'row', marginBottom: 0, paddingTop: hp('2.5%'), flexWrap: 'wrap', }}>
-                                    <Text
-                                        allowFontScaling={false}
-                                        style={{
-                                            textShadowColor: "rgba(0,0,0, 1)",
-                                            textShadowRadius: 20, width: WIDTH * 0.49, color: '#fff', fontSize: hp('2.3%'), fontWeight: 'bold', paddingLeft: 8, paddingTop: 1
-                                        }}>
-                                        Hoạch định đến đích:
-                                    </Text>
+                            <View style={{ width: WIDTH, height: '30%', marginTop: hp('2%'), }}>
+                                {/* ScrollView must be placed within a view to set its height */}
+                                <ScrollView >
+                                    <View style={{ width: WIDTH, flexDirection: 'row', marginBottom: 0, paddingTop: hp('2.5%'), flexWrap: 'wrap', justifyContent: 'center', alignContent: 'center', marginTop: 5, }}>
+                                        
+                                        <TouchableOpacity
+                                            onPress={() => { navigation.navigate('Points') }}
+                                            style={{ }}
+                                        >
+                                            <Image
+                                                allowFontScaling={false}
+                                                source={require('./imges/iconExcercise.png')}
+                                                style={{ width: WIDTH * 0.045, height: WIDTH * 0.045, tintColor: '#00f', backgroundColor: '#fff', borderRadius: 50,  }}
+                                                resizeMode="contain"
+                                            />
+                                        </TouchableOpacity>
 
+                                        <Text
+                                            allowFontScaling={false}
+                                            style={{
+                                                textShadowColor: "rgba(0,0,0, 1)", 
+                                                textShadowRadius: 20, color: '#fff', fontSize: hp('2.3%'), fontWeight: 'bold', paddingLeft: 8, paddingTop: 1
+                                            }}
+                                        >
+                                            Đếm ngày
+                                        </Text>
+
+                                        {/* <Text
+                                            allowFontScaling={false}
+                                            style={{
+                                                textShadowColor: "rgba(0,0,0, 1)", 
+                                                textShadowRadius: 20, color: '#ff0', fontSize: hp('2.1%'), fontWeight: 'bold', paddingLeft: 8, paddingBottom: 7, paddingTop: 1
+                                            }}
+                                        >
+                                            {`${point}  `}
+                                        </Text> */}
+
+                                    </View>
+
+                                    <View style={{ flexDirection: 'row', marginBottom: 0, flexWrap: 'wrap', }}>
+                                        <Text
+                                            allowFontScaling={false}
+                                            style={{
+                                                textShadowColor: "rgba(0,0,0, 1)",
+                                                textShadowRadius: 20, color: '#fff', fontSize: hp('2%'), fontWeight: 'bold', paddingLeft: 19, paddingBottom: 1, paddingBottom: 2
+                                            }}
+                                        >
+                                            {`Còn ${takeDayPoint1 != takeDayPoint1 ? 0 : takeDayPoint1 } ngày đến:`}
+                                        </Text>
+
+                                        <Text
+                                            allowFontScaling={false}
+                                            style={{
+                                                textShadowColor: "rgba(0,0,0, 1)",
+                                                textShadowRadius: 20, color: '#fff', fontSize: hp('2%'), fontWeight: 'bold', paddingLeft: 8, paddingBottom: 1, paddingBottom: 2
+                                            }}
+                                        >
+                                            {point1}
+                                        </Text>
+
+                                    </View>
+
+                                    <View style={{ flexDirection: 'row', marginBottom: 0, flexWrap: 'wrap', }}>
+                                        <Text
+                                            allowFontScaling={false}
+                                            style={{
+                                                textShadowColor: "rgba(0,0,0, 1)",
+                                                textShadowRadius: 20, color: '#fff', fontSize: hp('2%'), fontWeight: 'bold', paddingLeft: 19, paddingVertical: 1, marginVertical: 2
+                                            }}>
+                                            {`${point1b}:`}
+                                        </Text>
+                                        <Text
+                                            allowFontScaling={false}
+                                            style={{
+                                                textShadowColor: "rgba(0,0,0, 1)",
+                                                textShadowRadius: 20, color: '#fff', fontSize: hp('2%'), fontWeight: 'bold', paddingLeft: 8, paddingVertical: 1, marginVertical: 2
+                                            }}>
+                                            {`Đã được ${takeDayPoint1b} ngày`}
+                                            {/* takeDayPoint1b != takeDayPoint1b determine NaN or not */}
+                                        </Text>
+
+                                    </View>
+
+
+
+
+                                </ScrollView>
+                            </View>
+
+                            {/* Hiện thị các button ghi chú, lịch - chuyển đổi lịch, note, đếm ngược ngày */}
+                            <View style={{flexDirection: 'row', justifyContent: 'center', alignContent: 'center', }}>
+
+                                <View style={{justifyContent: 'center', alignItems: 'center', }}>
                                     <TouchableOpacity
-                                        onPress={() => { navigation.navigate('Points') }}
-                                        style={{ width: WIDTH * 0.09, }}>
+                                        onPress={() => { navigation.navigate('CalendarDate') }}
+                                        style={{  marginHorizontal: wp('3%'),  }}
+                                    >
                                         <Image
                                             allowFontScaling={false}
-                                            source={require('./imges/iconExcercise.png')}
-                                            style={{ width: WIDTH * 0.1, height: WIDTH * 0.1, backgroundColor: '#87CEFF', borderRadius: 50, position: 'relative', bottom: hp('1.5%'), }}
+                                            source={require('./imges/calendarRmbackground.png')}
+                                            style={{ width: WIDTH * 0.12, height: WIDTH * 0.12, backgroundColor: '#fff', borderRadius: 50,  }}
                                             resizeMode="contain"
                                         />
                                     </TouchableOpacity>
+                                    <Text allowFontScaling={false} style={{color: '#fff', fontSize: HEIGHT*0.017, }}>Sự kiện</Text>
+                                </View>
 
-                                    <Text
-                                        allowFontScaling={false}
-                                        style={{
-                                            textShadowColor: "rgba(0,0,0, 1)",
-                                            textShadowRadius: 20, width: WIDTH * 0.4, color: '#fff', fontSize: hp('2.3%'), fontWeight: 'bold', paddingLeft: 8, paddingVertical: hp('0.01%'), paddingTop: 1
-                                        }}>
-                                        {`${point}  `}
-                                    </Text>
+                                <View style={{justifyContent: 'center', alignItems: 'center', }}>
+                                    <TouchableOpacity
+                                        onPress={() => { navigation.navigate('Points') }}
+                                        style={{ marginHorizontal: wp('3%'),  }}>
+                                        <Image
+                                            allowFontScaling={false}
+                                            source={require('./imges/iconExcercise.png')}
+                                            style={{ width: WIDTH * 0.12, height: WIDTH * 0.12, backgroundColor: '#fff', tintColor: '#00f', borderRadius: 50, }}
+                                            resizeMode="contain"
+                                        />
+                                    </TouchableOpacity>     
+                                    <Text allowFontScaling={false} style={{color: '#fff', fontSize: HEIGHT*0.017,  }}>Đếm ngày</Text>
+ 
+                                </View>
+
+
+                                <View style={{justifyContent: 'center', alignItems: 'center', }}>
+                                    <TouchableOpacity
+                                        onPress={() => { setModalVisibleAddNote(true) }}
+                                        style={{  marginHorizontal: wp('3%'),  }}>
+                                        <Image
+                                            allowFontScaling={false}
+                                            source={require('./imges/note.png')}
+                                            style={{ width: WIDTH * 0.12, height: WIDTH * 0.12, backgroundColor: '#fff', tintColor: '#00f', borderRadius: 50, }}
+                                            resizeMode="contain"
+                                        />
+                                    </TouchableOpacity>
+                                    <Text allowFontScaling={false} style={{color: '#fff', fontSize: HEIGHT*0.017,  }}>Ghi chú</Text>
+                                </View>
+
+                                <View style={{justifyContent: 'center', alignItems: 'center', }}>
+                                    <TouchableOpacity
+                                        onPress={() => { setModalVisible2(!modalVisible2); }}
+                                        style={{ marginHorizontal: wp('3%'), }}>
+                                        <Image
+                                            allowFontScaling={false}
+                                            source={require('./imges/stickyNote.png')}
+                                            style={{ width: WIDTH * 0.12, height: WIDTH * 0.12, backgroundColor: '#fff', tintColor: '#00f', borderRadius: 50, }}
+                                            resizeMode="contain"
+                                        />
+                                    </TouchableOpacity>
+                                    <Text allowFontScaling={false} style={{color: '#fff', fontSize: HEIGHT*0.017, }}>Hướng dẫn</Text>
 
                                 </View>
 
-                                <View style={{ flexDirection: 'row', marginBottom: 0, flexWrap: 'wrap', }}>
-                                    <Text
-                                        allowFontScaling={false}
-                                        style={{
-                                            textShadowColor: "rgba(0,0,0, 1)",
-                                            textShadowRadius: 20, width: WIDTH * 0.63, color: '#fff', fontSize: hp('2.2%'), fontWeight: 'bold', paddingLeft: 19, paddingBottom: 1, paddingBottom: 2
-                                        }}>
-                                        {`Còn ${takeDayPoint1} ngày đến đích 1:`}
-                                    </Text>
+                            </View>
 
-                                    <Text
-                                        allowFontScaling={false}
-                                        style={{
-                                            textShadowColor: "rgba(0,0,0, 1)",
-                                            textShadowRadius: 20, width: WIDTH * 0.36, color: '#fff', fontSize: hp('2.2%'), fontWeight: 'bold', paddingLeft: 8, paddingBottom: 1, paddingBottom: 2
-                                        }}>
-                                        {point1}
-                                    </Text>
-
-                                </View>
-
-                                <View style={{ flexDirection: 'row', marginBottom: 0, flexWrap: 'wrap', }}>
-                                    <Text
-                                        allowFontScaling={false}
-                                        style={{
-                                            textShadowColor: "rgba(0,0,0, 1)",
-                                            textShadowRadius: 20, width: WIDTH * 0.63, color: '#fff', fontSize: hp('2.2%'), fontWeight: 'bold', paddingLeft: 19, paddingVertical: 1, marginVertical: 2
-                                        }}>
-                                        {`Còn ${takeDayPoint2} ngày đến đích 2:`}
-                                    </Text>
-                                    <Text
-                                        allowFontScaling={false}
-                                        style={{
-                                            textShadowColor: "rgba(0,0,0, 1)",
-                                            textShadowRadius: 20, width: WIDTH * 0.36, color: '#fff', fontSize: hp('2.2%'), fontWeight: 'bold', paddingLeft: 8, paddingVertical: 1, marginVertical: 2
-                                        }}>
-                                        {point2}
-                                    </Text>
-
-                                </View>
-
-                                <View style={{ flexDirection: 'row', marginBottom: 0, flexWrap: 'wrap', }}>
-                                    <Text
-                                        allowFontScaling={false}
-                                        style={{
-                                            textShadowColor: "rgba(0,0,0, 1)",
-                                            textShadowRadius: 20, width: WIDTH * 0.63, color: '#fff', fontSize: hp('2.2%'), fontWeight: 'bold', paddingLeft: 19, paddingVertical: 1, marginVertical: 2
-                                        }}>
-                                        {`Còn ${takeDayPoint3} ngày đến đích 3:`}
-                                    </Text>
-                                    <Text
-                                        allowFontScaling={false}
-                                        style={{
-                                            textShadowColor: "rgba(0,0,0, 1)",
-                                            textShadowRadius: 20, width: WIDTH * 0.36, color: '#fff', fontSize: hp('2.2%'), fontWeight: 'bold', paddingLeft: 8, paddingVertical: 1, marginVertical: 2
-                                        }}>
-                                        {point3}
-                                    </Text>
-
-                                </View>
-
-                                <View style={{ flexDirection: 'row', marginBottom: 0, flexWrap: 'wrap', }}>
-                                    <Text
-                                        allowFontScaling={false}
-                                        style={{
-                                            textShadowColor: "rgba(0,0,0, 1)",
-                                            textShadowRadius: 20, width: WIDTH * 0.63, color: '#fff', fontSize: hp('2.2%'), fontWeight: 'bold', paddingLeft: 19, paddingVertical: 1, marginVertical: 2
-                                        }}>
-                                        {`Còn ${takeDayPoint4} ngày đến đích 4:`}
-                                    </Text>
-                                    <Text
-                                        allowFontScaling={false}
-                                        style={{
-                                            textShadowColor: "rgba(0,0,0, 1)",
-                                            textShadowRadius: 20, width: WIDTH * 0.36, color: '#fff', fontSize: hp('2.2%'), fontWeight: 'bold', paddingLeft: 8, paddingVertical: 1, marginVertical: 2
-                                        }}>
-                                        {point4}
-                                    </Text>
-
-                                </View>
-
-                                <View style={{ flexDirection: 'row', marginBottom: 0, flexWrap: 'wrap', }}>
-                                    <Text
-                                        allowFontScaling={false}
-                                        style={{
-                                            textShadowColor: "rgba(0,0,0, 1)",
-                                            textShadowRadius: 20, width: WIDTH * 0.63, color: '#fff', fontSize: hp('2.2%'), fontWeight: 'bold', paddingLeft: 19, paddingVertical: 1, marginVertical: 2
-                                        }}>
-                                        {`Còn ${takeDayPoint5} ngày đến đích 5:`}
-                                    </Text>
-                                    <Text
-                                        allowFontScaling={false}
-                                        style={{
-                                            textShadowColor: "rgba(0,0,0, 1)",
-                                            textShadowRadius: 20, width: WIDTH * 0.36, color: '#fff', fontSize: hp('2.2%'), fontWeight: 'bold', paddingLeft: 8, paddingVertical: 1, marginVertical: 2
-                                        }}>
-                                        {point5}
-                                    </Text>
-
-                                </View>
-
-                                <View style={{ marginVertical: hp('0.5%'), justifyContent: 'center', alignItems: 'center', }}>
-                                    <Text
-                                        allowFontScaling={false}
-                                        numberOfLines={1}
-                                        adjustsFontSizeToFit
-                                        style={{
-                                            textShadowColor: "rgba(0,0,0, 1)",
-                                            textShadowRadius: 20, marginBottom: hp('1%'), color: '#FFD700', fontSize: hp('2.25%'), fontWeight: 'bold', paddingTop: 3, paddingBottom: 0
-                                        }}>
-                                        Vượt các giai đoạn, hoàn thành mục tiêu !
-                                    </Text>
-                                </View>
-
-                            </ScrollView>
                         </View>
+
+                        {/* Phần liên hệ  và đặt quảng cáo*/}
+                        <View style={{ alignItems: 'center', flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.6)', }}>
+                            {/* thêm vào để fix được như mong muốn */}
+                            <Text
+                                allowFontScaling={false}
+                                style={{
+                                    textShadowColor: "rgba(0,0,0, 1)",
+                                    textShadowRadius: 20, flex: 1, color: '#fff', fontSize: hp('1.6%'), fontWeight: 'bold', marginBottom: 0
+                                }}
+                                selectable={true}
+                            >
+                                {`Có vấn đề? Liên hệ macvanhien10@gmail.com`}
+                            </Text>
+
+                            <BannerAd
+                                unitId={adUnitId}
+                                size={BannerAdSize.FULL_BANNER}
+                                requestOptions={{
+                                    requestNonPersonalizedAdsOnly: true,
+                                }}
+                            />
+
+                        </View>
+
 
                         {/* Hiển thị Modal Loading */}
                         <Modal
@@ -1064,7 +1039,39 @@ export default function Home({ route, navigation }) {
                             </View>
                         </Modal>
 
-                        {/* Hiển thị Modal note */}
+                        {/* Hiển thị Modal add Note */}
+                        <Modal
+                            animationType="fade"
+                            transparent={false}
+                            visible={modalVisibleAddNote}
+                            onRequestClose={() => {
+                                setModalVisibleAddNote(!modalVisibleAddNote);
+                            }}
+                        >
+                            <View style={{ flex: 1 }}>
+                                {/* nút back */}
+                                <TouchableOpacity
+                                    onPress={() => {
+                                        setModalVisibleAddNote(false)
+                                    }}
+                                    style={{ height: HEIGHT * 0.055, width: WIDTH * 1, justifyContent: 'center', position: 'absolute', top: 0, zIndex: 1, }}
+                                >
+                                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                        <Image
+                                            allowFontScaling={false}
+                                            source={require('./imges/BackButton_rbg1.png')}
+                                            style={{ width: WIDTH * 0.04, height: WIDTH * 0.05, marginLeft: WIDTH * 0.02, borderRadius: 50, tintColor: 'blue', }}
+                                            resizeMode='stretch'
+                                        />
+                                    </View>
+                                </TouchableOpacity>
+
+                                <AppAddNote></AppAddNote>
+
+                            </View>
+                        </Modal>
+
+                        {/* Hiển thị Modal Hướng dẫn */}
                         <Modal
                             animationType="fade"
                             transparent={true}
@@ -1073,52 +1080,136 @@ export default function Home({ route, navigation }) {
                                 setModalVisible2(!modalVisible2);
                             }}
                         >
-                            <View style={{ width: '100%', height: '100%', justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.8)' }}>
-                                <View style={{}}>
-                                    <View style={{width: wp('95%'), backgroundColor: 'rgba(255, 250, 240, 1)', borderRadius: 5, alignItems: 'center', justifyContent: 'center', }}>
-                                        <View style={{ marginBottom: hp('2%'), paddingHorizontal: wp('5%'), marginTop: hp('2%') }}>
-                                            <Text allowFontScaling={false}  style = {{fontWeight: 'bold', marginVertical: hp('1%')}}>Ghi chú:</Text>
-                                            <Text allowFontScaling={false} style = {{marginTop: hp('0.3%')}}>       Định dạng ngày dạng: ngày/tháng/năm. Ví dụ: 22/02/2022</Text>
-                                            <Text allowFontScaling={false} style = {{marginTop: hp('0.3%')}}>       Nếu viết tắt ngày là : "15" thì máy sẽ hiểu là ngày 15 tháng và năm hiện tại. Tương tự nhập tắt là "15/02" thì máy sẽ hiểu năm là năm hiện tại.</Text>
-                                            <Text allowFontScaling={false} style = {{marginTop: hp('0.3%')}}>       Nếu nhập năm tắt là hai số thì máy sẽ thêm hai số đầu là 20</Text>
-                                            <Text allowFontScaling={false} style = {{marginTop: hp('0.3%')}}>       Nếu nhập sai cú pháp, sai ngày hoặc quá phạm vi tính thì sẽ giữ nguyên kết quả trước đó !</Text>
-                                            <Text allowFontScaling={false} style = {{marginTop: hp('0.5%')}}>       *Trong phần chuyển đổi ngày dương lịch sang ngày âm lịch: Cần nhập đúng cả ngày, tháng, năm dương lịch hợp lệ thì mới chuyển đổi ngày dương lịch sang ngày âm lịch, không có kiểu viết tắt ngày, tháng, năm như trước.</Text>
-                                        </View>
+                            <View style={{ width: WIDTH, height: '100%', justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.3)', }}>
+                                <View style={{ width: WIDTH*0.95, height: HEIGHT * 0.92, justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff', borderRadius: 5, }}>
+                                    <View style={{ height: HEIGHT * 0.06, backgroundColor: '#f00' }}>
+                                        {/* Nút back */}
                                         <TouchableOpacity
-                                            style={{ width: wp('25%'), height: hp('5%'), borderColor: 'white', borderWidth: 1, backgroundColor: 'blue', borderRadius: 20, justifyContent: 'center', alignItems: 'center', marginTop: hp('2%'), marginBottom: hp('2%'),}}
-                                            onPress={() => setModalVisible2(!modalVisible2)}
+                                            onPress={() => {
+                                                setModalVisible2(false)
+                                            }}
+                                            style={{ width: WIDTH * 0.95, justifyContent: 'center', paddingVertical: 5, }}
                                         >
-                                            <Text allowFontScaling={false} style={{  color: 'white', fontSize: hp('2%'), paddingHorizontal: wp('5.5%'), fontWeight: 'bold' , }}>Hide</Text>
+                                            <View style={{ flexDirection: 'row', alignItems: 'center', }}>
+                                                <Image
+                                                    allowFontScaling={false}
+                                                    source={require('./imges/BackButton_rbg1.png')}
+                                                    style={{ width: WIDTH * 0.04, height: WIDTH * 0.05, marginLeft: WIDTH * 0.05, tintColor: '#000', marginVertical: 5, }}
+                                                    resizeMode='stretch'
+                                                />
+                                                <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1, }}>
+                                                    <Text allowFontScaling={false} style={{
+                                                        fontSize: HEIGHT * 0.021, fontWeight: 'bold', color: '#fff', left: -WIDTH * 0.02,
+                                                    }}>
+                                                        Hướng dẫn
+                                                    </Text>
+                                                </View>
+                                            </View>
                                         </TouchableOpacity>
+                                    </View>
+
+                                    <View style={{ flex: 1 }}>
+                                        <ScrollView style={{ width: '98%', }}>
+                                            <Text allowFontScaling={false} style={{ color: '#333', fontSize: 15, marginHorizontal: '5.5%', fontWeight: 'bold', marginTop: 12, }}>
+                                                App Time Calculator v.2.1
+                                            </Text>
+                                            <Text allowFontScaling={false} style={{ color: '#333', fontSize: 14, marginHorizontal: '5.5%', }}>
+                                                App hiển thị ngày âm-dương lịch, đếm, tính (cộng, trừ) ngày, chuyển đổi ngày dương lịch sang âm lịch. Ngoài ra app còn có bảng một số ngày quan trọng, chức năng ghi chú.
+                                            </Text>
+
+                                            <Text allowFontScaling={false} style={{ color: '#333', fontSize: 15, marginHorizontal: '5.5%', fontWeight: 'bold', marginTop: 12, }}>
+                                                Nhập ngày tháng
+                                            </Text>
+                                            <Text allowFontScaling={false} style={{ color: '#333', fontSize: 14, marginHorizontal: '5.5%', }}>
+                                                - Ngày để đếm số ngày ngày đó đến ngày hiện tại / ngày đó đến ngày tương lai: sẽ được lưu.
+                                            </Text>
+                                            <Text allowFontScaling={false} style={{ color: '#333', fontSize: 14, marginHorizontal: '5.5%', }}>
+                                                - Định dạng ngày kiểu: ngày/tháng/năm. Ví dụ: 22/02/2022
+                                            </Text>
+                                            <Text allowFontScaling={false} style={{ color: '#333', fontSize: 14, marginHorizontal: '5.5%', }}>
+                                                - Nếu nhập sai cú pháp, sai ngày hoặc quá phạm vi tính thì sẽ giữ nguyên kết quả trước đó !
+                                            </Text>
+
+                                            <Text allowFontScaling={false} style={{ color: '#333', fontSize: 15, marginHorizontal: '5.5%', fontWeight: 'bold', marginTop: 12, }}>
+                                                Tính ngày 
+                                            </Text>
+                                            <Text allowFontScaling={false} style={{ color: '#333', fontSize: 14, marginHorizontal: '5.5%', }}>
+                                                Bảng tính ngày ở giữa màn hình, nếu muốn thêm - bớt số ngày ta chỉ cần nhập vào ô đằng sau chữ "Thêm" - "Bớt" và được kết quả ở bên phải.
+                                            </Text>
+
+                                            <Text allowFontScaling={false} style={{ color: '#333', fontSize: 15, marginHorizontal: '5.5%', fontWeight: 'bold', marginTop: 12, }}>
+                                                Đếm ngày 
+                                            </Text>
+                                            <Image
+                                                allowFontScaling={false}
+                                                source={require('./imges/buttonDemNgay.png')}
+                                                style={{ width: WIDTH * 0.82, height: HEIGHT * 0.3, marginLeft: WIDTH * 0.05, marginVertical: 5, }}
+                                                resizeMode='stretch'
+                                            />
+                                            <Text allowFontScaling={false} style={{ color: '#333', fontSize: 14, marginHorizontal: '5.5%', }}>
+                                                - Muốn đếm ngày ta vào "Đếm ngày" / Ở phần "Đếm ngày" ta Nhập vào ô "Lý do đếm ngày" / Nhấn nút "Xác nhận" (ở dưới cùng). Nếu ô bên phải có ngày thì do ta đã
+                                                đếm ngày với việc gì trước đó, chỉ cần xóa đi là được.
+                                            </Text>
+                                            <Text allowFontScaling={false} style={{ color: '#333', fontSize: 14, marginHorizontal: '5.5%', }}>
+                                                - Muốn đếm ngược ngày (muốn biết còn bao nhiêu ngày) vào "Đếm ngày" / Ở phần "Đếm ngược ngày" ta nhập vào ô "Ghi chú" để ghi chú sự kiện ngày trong tương lai đó / Nhập ngày sẽ diễn ra sự kiện (ngay ô bên phải) 
+                                                / Nhấn nút "Xác nhận" (ở dưới cùng).
+                                            </Text>
+
+                                            <Text allowFontScaling={false} style={{ color: '#333', fontSize: 15, marginHorizontal: '5.5%', fontWeight: 'bold', marginTop: 12, }}>
+                                                Đổi ngày dương lịch - Âm lịch 
+                                            </Text>
+                                            <Image
+                                                allowFontScaling={false}
+                                                source={require('./imges/DuongLichAmLich.png')}
+                                                style={{ width: WIDTH * 0.82, height: HEIGHT * 0.25, marginLeft: WIDTH * 0.05, marginVertical: 5, }}
+                                                resizeMode='stretch'
+                                            />
+                                            <Text allowFontScaling={false} style={{ color: '#333', fontSize: 14, marginHorizontal: '5.5%', }}>
+                                                Nhấn vào nút "Sự kiện" / Nhập ngày, rồi nhập tháng, nhập năm dương lịch đó vào các ô. Hệ thống sẽ tự động tính ra kết quả ở bên dưới.
+                                            </Text>
+                                            <Image
+                                                allowFontScaling={false}
+                                                source={require('./imges/InputDuonglichAmlich.png')}
+                                                style={{ width: WIDTH * 0.82, height: HEIGHT * 0.35, marginLeft: WIDTH * 0.05, marginVertical: 5, }}
+                                                resizeMode='stretch'
+                                            />
+
+                                            <Text allowFontScaling={false} style={{ color: '#333', fontSize: 15, marginHorizontal: '5.5%', fontWeight: 'bold', marginTop: 12, }}>
+                                                Bảng một số ngày quan trọng
+                                            </Text>
+                                            <Text allowFontScaling={false} style={{ color: '#333', fontSize: 14, marginHorizontal: '5.5%', }}>
+                                                Nhấn nút "Sự kiện" để thấy bảng. Bảng có các ngày dương lịch, âm lịch quan trọng, đặc biệt trong năm.
+                                            </Text>
+
+                                            <Text allowFontScaling={false} style={{ color: '#333', fontSize: 15, marginHorizontal: '5.5%', fontWeight: 'bold', marginTop: 12, }}>
+                                                Ghi chú 
+                                            </Text>
+                                            <Image
+                                                allowFontScaling={false}
+                                                source={require('./imges/GhiChuButton.png')}
+                                                style={{ width: WIDTH * 0.82, height: HEIGHT * 0.23, marginLeft: WIDTH * 0.05, marginVertical: 5, }}
+                                                resizeMode='stretch'
+                                            />
+                                            <Text allowFontScaling={false} style={{ color: '#333', fontSize: 14, marginHorizontal: '5.5%', }}>
+                                                Nhấn nút "Ghi chú" / Nhập vào ô "Nhập ghi chú" / Nhấn nút "+" bên phải để lưu ghi chú vào điện thoại. Chức năng hoạt động 
+                                                offline nên ghi chú sẽ mất khi bạn xóa dữ liệu App. 
+                                            </Text>
+
+                                            <Text allowFontScaling={false} style={{ color: '#333', fontSize: 15, marginHorizontal: '5.5%', fontWeight: 'bold', marginTop: 12, }}>
+                                                Liên hệ:
+                                            </Text>
+                                            <Text allowFontScaling={false} style={{ color: '#333', fontSize: 14, marginHorizontal: '5.5%', marginBottom: HEIGHT*0.1, }}>
+                                                Nếu phát hiện lỗi hay bất cứ điều gì về App Time Calculator hãy liên hệ Admind qua gmail macvanhien10@gmail.com.
+                                            </Text>
+                                            
+                                        </ScrollView>
                                     </View>
                                 </View>
                             </View>
                         </Modal>
-
-
-                        {/* Phần liên hệ  và đặt quảng cáo*/}
-                        <View style={{ height: '15%', alignItems: 'center', flex: 1, }}>
-                            <Text
-                                allowFontScaling={false}
-                                style={{
-                                    textShadowColor: "rgba(0,0,0, 1)",
-                                    textShadowRadius: 20, flex: 1, color: '#fff', fontSize: hp('2%'), fontWeight: 'bold', marginBottom: 0
-                                }}
-                                selectable={true}
-                            >
-                                Có vấn đề? Liên hệ macvanhien10@gmail.com
-                            </Text>
-
-                            <BannerAd
-                                unitId={adUnitId}
-                                size={BannerAdSize.FULL_BANNER}
-                                requestOptions={{
-                                    requestNonPersonalizedAdsOnly: true,
-                                }}
-                            />
-
-                        </View>
+                        
                     </View>
+
 
                 </ImageBackground>
 
